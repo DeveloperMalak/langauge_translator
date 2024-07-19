@@ -8,36 +8,36 @@ class LanguageTranslationPage extends StatefulWidget {
 }
 
 class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
-  var languages = ['Hindi', 'English', 'Arabic'];
-  var originLanguage = 'From';
-  var destinationLanguage = 'To';
-  var output = '';
+  var languages = ['Hindi', 'English', 'Arabic'];//these are our some langauge
+  var originLanguage = 'From';//first value apperar at dropdown butotn
+  var destinationLanguage = 'To';//destination
+  var output = '';//output whih will be printed
   TextEditingController languageController = TextEditingController();
   void translate(String src, String dest, String input) async {
-    if (src == '--' || dest == '--') {
+    if (src == '--' || dest == '--') {//her if src and dest==null so we ill initialize out pu twith erro message
       setState(() {
-        output = 'Fails to translate';
+        output = 'Fails to translate';//with setState we have passed this message to the output
       });
-      return;
+      return;//we have returned
     }
 
-    GoogleTranslator translator = GoogleTranslator();
-    var translation = await translator.translate(input, from: src, to: dest);
+    GoogleTranslator translator = GoogleTranslator();//here we made a object  from our class
+    var translation = await translator.translate(input, from: src, to: dest);//here we have varible translation in whih we will store value of the transalor.translateor object
     setState(() {
-      output = translation.text;
+      output = translation.text;//we have passed our translation value to the output
     });
   }
-
-  String getLanguageCode(String language) {
+//here we made a funtion to make code fo our langauges
+  String getLanguageCode(String language) {//here we have created a languge cod e hwi our google translate cna understand
     switch (language) {
       case 'English':
-        return 'en';
+        return 'en';//code that googel understand
       case 'Hindi':
         return 'hi';
       case 'Arabic':
         return 'ar';
       default:
-        return '--';
+        return '--';//if no langaue matches so then return this null
     }
   }
 
@@ -59,21 +59,22 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  DropdownButton<String>(
-                    focusColor: Colors.white,
+                  DropdownButton<String>(//here we have made a dropdownbutton widget
+                    focusColor: Colors.white,//with all these detaisl
                     iconDisabledColor: Colors.white,
                     iconEnabledColor: Colors.white,
-                    hint: Text(originLanguage, style: TextStyle(color: Colors.white)),
+                    hint: Text(originLanguage,//in the hint teext we have originLangague
+                        style: TextStyle(color: Colors.white)),
                     dropdownColor: Colors.white,
                     icon: Icon(Icons.keyboard_arrow_down),
-                    items: languages.map((String language) {
-                      return DropdownMenuItem<String>(
-                        child: Text(language),
+                    items: languages.map((String language) {//we mapped oru langauges list
+                      return DropdownMenuItem<String>(//adn passed the value to the DropdownMenuItem
+                        child: Text(language),//in the text widget
                         value: language,
                       );
-                    }).toList(),
+                    }).toList(),//and to lIst
                     onChanged: (String? value) {
-                      setState(() {
+                      setState(() {//if oncanggd he value of drop down changed origin lngauge ould bechanged
                         originLanguage = value!;
                       });
                     },
@@ -85,10 +86,11 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
                     focusColor: Colors.white,
                     iconDisabledColor: Colors.white,
                     iconEnabledColor: Colors.white,
-                    hint: Text(destinationLanguage, style: TextStyle(color: Colors.white)),
+                    hint: Text(destinationLanguage,
+                        style: TextStyle(color: Colors.white)),
                     dropdownColor: Colors.white,
                     icon: Icon(Icons.keyboard_arrow_down_outlined),
-                    items: languages.map((String language) {
+                    items: languages.map((String language) {//we have mapped oru list
                       return DropdownMenuItem<String>(
                         child: Text(language),
                         value: language,
@@ -96,7 +98,7 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
                     }).toList(),
                     onChanged: (String? value) {
                       setState(() {
-                        destinationLanguage = value!;
+                        destinationLanguage = value!;//on cahnged value of the s willbe chagned too
                       });
                     },
                   ),
@@ -123,7 +125,7 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
                     ),
                     errorStyle: TextStyle(color: Colors.red, fontSize: 15),
                   ),
-                  controller: languageController,
+                  controller: languageController,//we have passed the contoller value of our controlelr
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter text to translate';
@@ -140,9 +142,9 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
                   ),
                   onPressed: () {
                     translate(
-                      getLanguageCode(originLanguage),
-                      getLanguageCode(destinationLanguage),
-                      languageController.text.toString(),
+                      getLanguageCode(originLanguage),//this is the src
+                      getLanguageCode(destinationLanguage),//thsi is the dest
+                      languageController.text.toString(),//this is the input
                     );
                   },
                   child: Text('Translate'),
@@ -150,7 +152,7 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
               ),
               SizedBox(height: 20),
               Text(
-                output,
+                output,//here will be our output translation
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
